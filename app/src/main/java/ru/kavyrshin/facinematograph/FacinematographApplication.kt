@@ -2,6 +2,7 @@ package ru.kavyrshin.facinematograph
 
 import android.app.Application
 import ru.kavyrshin.facinematograph.di.global.ApplicationComponent
+import ru.kavyrshin.facinematograph.di.global.DaggerApplicationComponent
 
 class FacinematographApplication : Application() {
 
@@ -14,6 +15,6 @@ class FacinematographApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        applicationComponent = DaggerApplicationComponent.builder.application(this).build()
+        applicationComponent = DaggerApplicationComponent.builder().application(this).build()
     }
 }
