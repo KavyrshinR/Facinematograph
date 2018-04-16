@@ -11,7 +11,7 @@ import javax.inject.Inject
 class FilmsRepository public @Inject constructor(val api: OmdbApi) : IFilmsRepository {
 
     override fun search(searchRequest: String, page: Int): Single<List<Film>> {
-        return api.searchFilmsByTitle(BuildConfig.API_KEY, "movie", searchRequest, page)
+        return api.searchFilmsByTitle("", BuildConfig.API_KEY, "movie", searchRequest, page)
                 .flatMap { it -> Single.just(it.filmsArray) }
     }
 
