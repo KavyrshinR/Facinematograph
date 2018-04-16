@@ -4,9 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.film_favourite_list_item.view.*
 import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 
@@ -36,18 +35,12 @@ class SearchListResultAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     }
 
 
-    class FilmListItemViewHolder(
-            itemView: View,
-            val imageView: ImageView = itemView.findViewById(R.id.imageView),
-            val tvTitle: TextView = itemView.findViewById(R.id.tvTitle),
-            val tvYear: TextView = itemView.findViewById(R.id.tvYear)
-
-    ) : RecyclerView.ViewHolder(itemView) {
+    class FilmListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindFilm(film: Film) {
-            Picasso.get().load(film.posterSrc).into(imageView)
-            tvTitle.text = film.title
-            tvYear.text = film.year.toString()
+            Picasso.get().load(film.posterSrc).into(itemView.imageView)
+            itemView.tvTitle.text = film.title
+            itemView.tvYear.text = film.year.toString()
         }
     }
 }
