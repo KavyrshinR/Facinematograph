@@ -18,4 +18,9 @@ class SearchFilmsPresenter public @Inject constructor(val searchInteractor: Sear
                             { viewState.showError(it.message as String)})
         )
     }
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        searchFilms("Love")
+    }
 }
