@@ -6,11 +6,12 @@ import ru.kavyrshin.facinematograph.FacinematographApplication
 
 open class BaseActivity : MvpAppCompatActivity() {
 
-    private var application : FacinematographApplication? = null
+    public var application : FacinematographApplication? = null
+        private set
         get() {
-            if (application == null) {
-                application = getApplication() as? FacinematographApplication
+            if (field == null) {
+                field = getApplication() as? FacinematographApplication
             }
-            return application
+            return field
         }
 }

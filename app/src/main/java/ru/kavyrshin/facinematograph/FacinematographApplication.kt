@@ -9,7 +9,7 @@ class FacinematographApplication : Application() {
     public var applicationComponent : ApplicationComponent? = null
         private set
         public get() {
-            return applicationComponent ?: throw NullPointerException("Application component null")
+            return field ?: throw NullPointerException("Application component null")
         }
 
     override fun onCreate() {
