@@ -23,4 +23,5 @@ interface ApplicationComponent {
     }
 
 
+    fun searchFilmsComponent(): SearchFilmsComponent.Builder
 }
