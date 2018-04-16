@@ -1,4 +1,4 @@
-package ru.kavyrshin.facinematograph.di.global
+package ru.kavyrshin.facinematograph.di
 
 import dagger.Subcomponent
 import ru.kavyrshin.facinematograph.presentation.presenters.SearchFilmsPresenter
