@@ -3,6 +3,7 @@ package ru.kavyrshin.facinematograph.ui
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import ru.kavyrshin.facinematograph.R
@@ -33,10 +34,10 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
 
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = linearLayoutManager
-        listResultAdapter = SearchListResultAdapter()
+        listResultAdapter = SearchListResultAdapter(
+                { Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()}
+        )
         recyclerView?.adapter = listResultAdapter
-
-        searchFilmsPresenter.searchFilms("Love")
     }
 
 
