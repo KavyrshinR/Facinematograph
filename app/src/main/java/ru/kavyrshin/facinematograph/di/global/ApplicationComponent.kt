@@ -3,6 +3,7 @@ package ru.kavyrshin.facinematograph.di.global
 import dagger.BindsInstance
 import dagger.Component
 import ru.kavyrshin.facinematograph.FacinematographApplication
+import ru.kavyrshin.facinematograph.di.FavouriteFilmsComponent
 import ru.kavyrshin.facinematograph.di.SearchFilmsComponent
 import ru.kavyrshin.facinematograph.di.global.modules.ApplicationModule
 import ru.kavyrshin.facinematograph.di.global.modules.DataModule
@@ -25,4 +26,5 @@ interface ApplicationComponent {
 
 
     fun searchFilmsComponent(): SearchFilmsComponent.Builder
+    fun favouriteFilmsComponent(): FavouriteFilmsComponent.Builder
 }
