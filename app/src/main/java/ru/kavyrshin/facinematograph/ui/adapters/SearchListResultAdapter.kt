@@ -20,8 +20,8 @@ class SearchListResultAdapter(private val itemClick: (Film) -> Unit)
         filmList?.addAll(data)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        return FilmListItemViewHolder(LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return FilmListItemViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.film_favourite_list_item, parent, false), itemClick)
     }
 
@@ -29,7 +29,7 @@ class SearchListResultAdapter(private val itemClick: (Film) -> Unit)
         return filmList!!.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when {
             holder is FilmListItemViewHolder -> holder.bindFilm(filmList!![position])
         }
