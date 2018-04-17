@@ -1,5 +1,6 @@
 package ru.kavyrshin.facinematograph.domain.interactors
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import ru.kavyrshin.facinematograph.data.repositories.FilmsRepository
@@ -10,6 +11,11 @@ class SearchFilmsInteractor public @Inject constructor(val filmsRepository: Film
 
     fun searchFilmsByTitle(searchRequest: String) : Single<List<Film>> {
         return filmsRepository.search(searchRequest, 1)
+                .subscribeOn(Schedulers.io())
+    }
+
+    fun saveFavouriteFilm(film: Film) : Completable {
+        return filmsRepository.saveFilmInFavourite(film)
                 .subscribeOn(Schedulers.io())
     }
 }

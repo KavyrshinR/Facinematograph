@@ -30,13 +30,14 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_films)
 
-        recyclerView = findViewById(R.id.recyclerView) as? RecyclerView
+        recyclerView = findViewById(R.id.recyclerView)
 
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = linearLayoutManager
-        listResultAdapter = SearchListResultAdapter(
-                { Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()}
-        )
+        listResultAdapter = SearchListResultAdapter( {
+            Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()
+            searchFilmsPresenter.saveFilmInFavourities(it)
+        })
         recyclerView?.adapter = listResultAdapter
     }
 
@@ -47,7 +48,7 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
     }
 
     override fun showError(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun showLoading() {

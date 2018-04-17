@@ -2,6 +2,7 @@ package ru.kavyrshin.facinematograph.presentation.presenters
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
+import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.domain.interactors.SearchFilmsInteractor
 import ru.kavyrshin.facinematograph.presentation.views.SearchFilmsView
 import javax.inject.Inject
@@ -19,8 +20,16 @@ class SearchFilmsPresenter public @Inject constructor(val searchInteractor: Sear
         )
     }
 
+    fun saveFilmInFavourities(film: Film) {
+        unsubscribeOnDestroy(
+                searchInteractor.saveFavouriteFilm(film)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe( {} , {viewState.showError("Не удалось сохранить")} )
+        )
+    }
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        searchFilms("Love")
+        searchFilms("Friends")
     }
 }
