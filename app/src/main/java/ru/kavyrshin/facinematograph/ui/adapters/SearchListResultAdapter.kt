@@ -14,10 +14,10 @@ class SearchListResultAdapter(private val itemClick: (Film) -> Unit)
 
     val filmViewType: Int = 123
 
-    var filmList: MutableList<Film>? = mutableListOf()
+    var filmList: MutableList<Film> = mutableListOf()
 
     fun addData(data: List<Film>) {
-        filmList?.addAll(data)
+        filmList.addAll(data)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -26,12 +26,12 @@ class SearchListResultAdapter(private val itemClick: (Film) -> Unit)
     }
 
     override fun getItemCount(): Int {
-        return filmList!!.size
+        return filmList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when {
-            holder is FilmListItemViewHolder -> holder.bindFilm(filmList!![position])
+            holder is FilmListItemViewHolder -> holder.bindFilm(filmList[position])
         }
     }
 
