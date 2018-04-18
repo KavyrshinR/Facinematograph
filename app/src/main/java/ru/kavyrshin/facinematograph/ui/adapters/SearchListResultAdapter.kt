@@ -9,16 +9,14 @@ import kotlinx.android.synthetic.main.film_favourite_list_item.view.*
 import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 
-class SearchListResultAdapter(private val itemClick: (Film) -> Unit)
+class SearchListResultAdapter(
+        private val itemClick: (Film) -> Unit,
+        private val nextPageListener: () -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val filmViewType: Int = 123
 
     var filmList: MutableList<Film> = mutableListOf()
-
-    fun addData(data: List<Film>) {
-        filmList.addAll(data)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return FilmListItemViewHolder(LayoutInflater.from(parent.context)
@@ -33,6 +31,7 @@ class SearchListResultAdapter(private val itemClick: (Film) -> Unit)
         when {
             holder is FilmListItemViewHolder -> holder.bindFilm(filmList[position])
         }
+        if (itemCount - position < 5) nextPageListener()
     }
 
 
