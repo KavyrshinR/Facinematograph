@@ -1,6 +1,7 @@
 package ru.kavyrshin.facinematograph.ui
 
 import android.os.Bundle
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
@@ -10,6 +11,7 @@ import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.presentation.presenters.SearchFilmsPresenter
 import ru.kavyrshin.facinematograph.presentation.views.SearchFilmsView
+import ru.kavyrshin.facinematograph.ui.adapters.FilmDiffUtilCallback
 import ru.kavyrshin.facinematograph.ui.adapters.SearchListResultAdapter
 
 class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
@@ -37,14 +39,21 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
         listResultAdapter = SearchListResultAdapter( {
             Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()
             searchFilmsPresenter.saveFilmInFavourities(it)
+        }, {
+            searchFilmsPresenter.loadNextPage()
         })
         recyclerView?.adapter = listResultAdapter
     }
 
 
     override fun showSearchResult(searchResultList: List<Film>) {
-        listResultAdapter?.addData(searchResultList)
-        listResultAdapter?.notifyDataSetChanged()
+        val diffUtil: FilmDiffUtilCallback = FilmDiffUtilCallback(listResultAdapter?.filmList!!.toList(), searchResultList)
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffUtil)
+
+        listResultAdapter?.filmList?.clear()
+        listResultAdapter?.filmList?.addAll(searchResultList)
+
+        diffResult.dispatchUpdatesTo(listResultAdapter)
     }
 
     override fun showError(message: String) {

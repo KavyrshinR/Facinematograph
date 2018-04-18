@@ -7,10 +7,10 @@ import ru.kavyrshin.facinematograph.data.repositories.FilmsRepository
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 import javax.inject.Inject
 
-class SearchFilmsInteractor public @Inject constructor(val filmsRepository: FilmsRepository) {
+class SearchFilmsInteractor public @Inject constructor(private val filmsRepository: FilmsRepository) {
 
-    fun searchFilmsByTitle(searchRequest: String) : Single<List<Film>> {
-        return filmsRepository.search(searchRequest, 1)
+    fun searchFilmsByTitle(searchRequest: String, page: Int) : Single<List<Film>> {
+        return filmsRepository.search(searchRequest, page)
                 .subscribeOn(Schedulers.io())
     }
 
