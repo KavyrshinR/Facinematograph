@@ -46,6 +46,10 @@ class SearchFilmsPresenter public @Inject constructor(private val searchInteract
         }
     })
 
+    fun search(searchString: String) {
+        paginator.search(searchString)
+    }
+
     fun loadNextPage() {
         paginator.loadNewPage()
     }
@@ -58,8 +62,4 @@ class SearchFilmsPresenter public @Inject constructor(private val searchInteract
         )
     }
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        paginator.search("Friends")
-    }
 }
