@@ -62,4 +62,8 @@ class SearchFilmsPresenter public @Inject constructor(private val searchInteract
         )
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        paginator.release()
+    }
 }
