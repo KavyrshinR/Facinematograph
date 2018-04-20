@@ -64,7 +64,7 @@ class FavouriteFilmsActivity : BaseActivity(), View.OnClickListener, FavouriteFi
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         favouriteFilmsList?.layoutManager = linearLayoutManager
         favouriteAdapter = FavouriteFilmsListAdapter (alphabetComparator, {
-            Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()
+            presenter.deleteFilm(it)
         })
         favouriteFilmsList?.adapter = favouriteAdapter
 
@@ -90,9 +90,9 @@ class FavouriteFilmsActivity : BaseActivity(), View.OnClickListener, FavouriteFi
     }
 
     override fun showFavouriteFilms(favouriteFilms: List<Film>) {
+        filmsCache?.clear()
         filmsCache?.addAll(favouriteFilms)
-        favouriteAdapter?.add(favouriteFilms)
-        favouriteAdapter?.notifyDataSetChanged()
+        favouriteAdapter?.replaceAll(favouriteFilms)
     }
 
     override fun showError(message: String) {
