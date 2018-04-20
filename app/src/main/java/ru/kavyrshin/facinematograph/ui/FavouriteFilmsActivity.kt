@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -14,8 +16,14 @@ import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.presentation.presenters.FavouriteFilmsPresenter
 import ru.kavyrshin.facinematograph.presentation.views.FavouriteFilmsView
 import ru.kavyrshin.facinematograph.ui.adapters.FavouriteFilmsListAdapter
+import ru.kavyrshin.facinematograph.util.setOnQueryTextListener
 
 class FavouriteFilmsActivity : BaseActivity(), View.OnClickListener, FavouriteFilmsView {
+
+    private lateinit var toolbar: Toolbar
+    private lateinit var searchView: SearchView
+    private val alphabetComparator: Comparator<Film> = Comparator({ o1, o2 -> o1.title.compareTo(o2.title) })
+    private var filmsCache: MutableList<Film>? = mutableListOf()
 
     private var btnAddFavouriteFilm: FloatingActionButton? = null
     private var favouriteFilmsList: RecyclerView? = null
@@ -34,27 +42,56 @@ class FavouriteFilmsActivity : BaseActivity(), View.OnClickListener, FavouriteFi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favourite_films)
 
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
+
+        searchView = findViewById(R.id.searchView)
+        searchView.setBackgroundResource(R.color.white)
+
+        searchView.setOnQueryTextListener(
+                { favouriteAdapter?.replaceAll(filter(filmsCache!!, it))
+                    favouriteFilmsList?.scrollToPosition(0)
+                    true },
+                { favouriteAdapter?.replaceAll(filter(filmsCache!!, it))
+                    favouriteFilmsList?.scrollToPosition(0)
+                    true }
+        )
+
         favouriteFilmsList = findViewById(R.id.favouriteFilmsList) as RecyclerView
-        btnAddFavouriteFilm = findViewById(R.id.btnAddFavouriteFilm) as FloatingActionButton
+        btnAddFavouriteFilm = findViewById(R.id.btnAddFavouriteFilm)
 
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         favouriteFilmsList?.layoutManager = linearLayoutManager
-        favouriteAdapter = FavouriteFilmsListAdapter {
+        favouriteAdapter = FavouriteFilmsListAdapter (alphabetComparator, {
             Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()
-        }
+        })
         favouriteFilmsList?.adapter = favouriteAdapter
 
         btnAddFavouriteFilm?.setOnClickListener(this)
     }
 
+    fun filter(list: MutableList<Film>, query: String) : List<Film> {
+        var queryLowerCase = query.toLowerCase()
+
+        var resultList: MutableList<Film> = mutableListOf()
+
+        for(item in list) {
+            if (item.title.toLowerCase().contains(queryLowerCase)) {
+                resultList.add(item)
+            }
+        }
+
+        return resultList
+    }
 
     override fun onClick(v: View?) {
         startActivity(Intent(this, SearchFilmsActivity::class.java))
     }
 
-
     override fun showFavouriteFilms(favouriteFilms: List<Film>) {
-        favouriteAdapter?.addData(favouriteFilms)
+        filmsCache?.addAll(favouriteFilms)
+        favouriteAdapter?.add(favouriteFilms)
         favouriteAdapter?.notifyDataSetChanged()
     }
 
