@@ -38,10 +38,11 @@ class FavouriteFilmsListAdapter(private val itemClick: (Film) -> Unit) : Recycle
     class FavouriteFilmViewHolder(itemView: View, private val itemClick: (Film) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
         fun bindFilm(film: Film) {
-            Picasso.get().load(film.posterSrc).into(itemView.imageView)
+            Picasso.get().load(film.posterSrc).error(R.drawable.broken_image).into(itemView.imageView)
             itemView.tvTitle.text = film.title
             itemView.tvYear.text = film.year.toString()
-            itemView.setOnClickListener { itemClick(film) }
+            itemView.btnFavourite.setText(R.string.delete_favourite)
+            itemView.btnFavourite.setOnClickListener { itemClick(film) }
         }
     }
 }
