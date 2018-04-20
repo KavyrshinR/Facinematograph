@@ -4,17 +4,28 @@ import android.os.Bundle
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.support.v7.widget.Toolbar
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.presentation.presenters.SearchFilmsPresenter
 import ru.kavyrshin.facinematograph.presentation.views.SearchFilmsView
 import ru.kavyrshin.facinematograph.ui.adapters.FilmDiffUtilCallback
 import ru.kavyrshin.facinematograph.ui.adapters.SearchListResultAdapter
+import ru.kavyrshin.facinematograph.util.setOnQueryTextListener
+import java.util.concurrent.TimeUnit
 
 class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
+
+    private lateinit var toolbar: Toolbar
+    private lateinit var searchView: SearchView
 
     private var recyclerView: RecyclerView? = null
     private var listResultAdapter: SearchListResultAdapter? = null
@@ -22,6 +33,8 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
 
     @InjectPresenter
     lateinit var searchFilmsPresenter: SearchFilmsPresenter
+
+    val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     @ProvidePresenter
     fun provideSearchFilmsPresenter() : SearchFilmsPresenter? {
@@ -32,7 +45,26 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_films)
 
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
+
+        searchView = findViewById(R.id.searchView)
         recyclerView = findViewById(R.id.recyclerView)
+
+        searchView.setBackgroundResource(R.color.white)
+
+        val subject: PublishSubject<String> = PublishSubject.create()
+        compositeDisposable.add(subject.debounce(700, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ searchFilmsPresenter.search(it); })
+        )
+
+        searchView.setOnQueryTextListener(
+                change = { subject.onNext(it); true },
+                submit = { subject.onNext(it); true }
+        )
 
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = linearLayoutManager
@@ -66,5 +98,10 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
 
     override fun hideLoading() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 }
