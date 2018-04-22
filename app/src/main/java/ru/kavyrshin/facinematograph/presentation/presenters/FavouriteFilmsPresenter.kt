@@ -28,8 +28,8 @@ class FavouriteFilmsPresenter public @Inject constructor(val favouriteFilmsInter
         )
     }
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
+    override fun attachView(view: FavouriteFilmsView?) {
+        super.attachView(view)
         getFavouriteFilms()
     }
 }
