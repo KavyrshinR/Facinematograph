@@ -14,6 +14,10 @@ class FilmsRepository public @Inject constructor(val api: OmdbApi, val database:
 
     override fun search(searchRequest: String, page: Int): Single<List<Film>> {
         return api.searchFilmsByTitle("", BuildConfig.API_KEY, "movie", searchRequest, page)
+                .flatMap {
+                    if (!it.result && it.error == "Movie not found!") it.filmsArray = listOf()
+                    Single.just(it)
+                }
                 .flatMap { it -> Single.just(it.filmsArray) }
     }
 
