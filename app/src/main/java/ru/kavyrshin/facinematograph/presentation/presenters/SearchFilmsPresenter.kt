@@ -20,29 +20,48 @@ class SearchFilmsPresenter public @Inject constructor(private val searchInteract
             object : Paginator.ViewController<Film> {
 
         override fun showEmptyProgress(show: Boolean) {
-            Log.d("myLogs", "showEmtyProgress")
+            if (show) {
+                viewState.showLoading()
+            } else {
+                viewState.hideLoading()
+            }
         }
 
         override fun showEmptyError(show: Boolean, error: Throwable?) {
-            Log.d("myLogs", "showEmptyError")
+            if (show) {
+                viewState.showError("Empty data")
+            } else {
+                Log.d("myLogs", "hideEmptyError")
+            }
         }
 
         override fun showEmptyView(show: Boolean) {
-            Log.d("myLogs", "showEmptyView")
+            if (show) {
+                Log.d("myLogs", "showEmptyView")
+            } else {
+                Log.d("myLogs", "hideEmptyView")
+            }
         }
 
         override fun showData(show: Boolean, data: List<Film>) {
             if (show) {
+                Log.d("myLogs", "showData")
                 viewState.showSearchResult(data)
+            } else {
+                Log.d("myLogs", "hideData")
             }
         }
 
         override fun showErrorMessage(error: Throwable) {
-            Log.d("myLogs", "showErrorMessage")
+            viewState.showError(error.message!!)
         }
 
         override fun showPageProgress(show: Boolean) {
-            Log.d("myLogs", "showPageProgress")
+            if (show) {
+                Log.d("myLogs", "showPageProgress")
+            } else {
+                Log.d("myLogs", "hidePageProgress")
+            }
         }
     })
 

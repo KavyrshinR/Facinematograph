@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -26,6 +28,7 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
 
     private lateinit var toolbar: Toolbar
     private lateinit var searchView: SearchView
+    private lateinit var progressBar: ProgressBar
 
     private var recyclerView: RecyclerView? = null
     private var listResultAdapter: SearchListResultAdapter? = null
@@ -51,6 +54,7 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
 
         searchView = findViewById(R.id.searchView)
         recyclerView = findViewById(R.id.recyclerView)
+        progressBar = findViewById(R.id.progressBar)
 
         searchView.setBackgroundResource(R.color.white)
 
@@ -93,11 +97,11 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
     }
 
     override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        progressBar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        progressBar.visibility = View.GONE
     }
 
     override fun onDestroy() {
