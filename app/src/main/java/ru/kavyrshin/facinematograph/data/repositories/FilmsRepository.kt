@@ -32,7 +32,7 @@ class FilmsRepository public constructor(val api: OmdbApi, val database: Facinem
         return database.getFilmDao().queryAllFilms()
     }
 
-    override fun getFilmById(filmId: Int): Single<Film> {
+    override fun getFilmById(filmId: String): Single<Film> {
         return database.getFilmDao().queryFilmById(filmId)
     }
 }

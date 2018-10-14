@@ -2,19 +2,18 @@ package ru.kavyrshin.facinematograph.features.film_detail
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
-import ru.kavyrshin.facinematograph.presentation.presenters.BasePresenter
 
 @InjectViewState
-class DetailPresenter(val filmId: Int,
+class DetailPresenter(val filmId: String,
                       val interactor: DetailContract.Interactor)
-    : BasePresenter<DetailContract.View>(), DetailContract.Presenter {
+    : DetailContract.Presenter() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         getFilm(filmId)
     }
 
-    override fun getFilm(filmId: Int) {
+    override fun getFilm(filmId: String) {
         unsubscribeOnDestroy(
             interactor.getFilm(filmId)
                     .observeOn(AndroidSchedulers.mainThread())

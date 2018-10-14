@@ -7,7 +7,7 @@ import ru.kavyrshin.facinematograph.domain.global.repositories.IFilmsRepository
 
 class DetailInteractor(val filmsRepository: IFilmsRepository) : DetailContract.Interactor {
 
-    override fun getFilm(filmId: Int): Single<Film> {
+    override fun getFilm(filmId: String): Single<Film> {
         return filmsRepository.getFilmById(filmId)
                 .subscribeOn(Schedulers.io())
     }

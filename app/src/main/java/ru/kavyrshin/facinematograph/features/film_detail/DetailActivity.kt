@@ -24,7 +24,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
 
     @ProvidePresenter
     fun providePresenter(): DetailContract.Presenter {
-        return get<DetailContract.Presenter>(){ parametersOf(intent.extras.getInt(FILM_KEY_EXTRA, -1))}
+        return get{ parametersOf(intent.extras.getString(FILM_KEY_EXTRA, ""))}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

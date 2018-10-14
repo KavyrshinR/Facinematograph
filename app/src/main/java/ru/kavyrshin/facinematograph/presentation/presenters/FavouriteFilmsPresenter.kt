@@ -28,7 +28,7 @@ class FavouriteFilmsPresenter constructor(val favouriteFilmsInteractor: Favourit
     }
 
     fun filmClick(film: Film) {
-
+        viewState.goToDetail(film)
     }
 
     override fun attachView(view: FavouriteFilmsView?) {
