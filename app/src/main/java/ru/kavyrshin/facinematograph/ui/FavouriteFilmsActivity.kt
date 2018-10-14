@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import org.koin.android.ext.android.get
 import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.presentation.presenters.FavouriteFilmsPresenter
@@ -35,7 +36,7 @@ class FavouriteFilmsActivity : BaseActivity(), View.OnClickListener, FavouriteFi
 
     @ProvidePresenter
     fun providePresenter(): FavouriteFilmsPresenter? {
-        return application?.applicationComponent?.favouriteFilmsComponent()?.build()?.presenter()
+        return get()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

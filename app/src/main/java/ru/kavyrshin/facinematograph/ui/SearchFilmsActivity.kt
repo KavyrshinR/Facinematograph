@@ -15,6 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import org.koin.android.ext.android.get
 import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.presentation.presenters.SearchFilmsPresenter
@@ -41,7 +42,7 @@ class SearchFilmsActivity : BaseActivity(), SearchFilmsView {
 
     @ProvidePresenter
     fun provideSearchFilmsPresenter() : SearchFilmsPresenter? {
-        return application?.applicationComponent?.searchFilmsComponent()?.build()?.presenter()
+        return get()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

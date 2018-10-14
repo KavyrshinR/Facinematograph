@@ -5,10 +5,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.domain.interactors.FavouriteFilmsInteractor
 import ru.kavyrshin.facinematograph.presentation.views.FavouriteFilmsView
-import javax.inject.Inject
 
 @InjectViewState
-class FavouriteFilmsPresenter public @Inject constructor(val favouriteFilmsInteractor: FavouriteFilmsInteractor)
+class FavouriteFilmsPresenter constructor(val favouriteFilmsInteractor: FavouriteFilmsInteractor)
     : BasePresenter<FavouriteFilmsView>() {
 
     fun getFavouriteFilms() {

@@ -1,20 +1,17 @@
 package ru.kavyrshin.facinematograph
 
 import android.app.Application
-import ru.kavyrshin.facinematograph.di.global.ApplicationComponent
-import ru.kavyrshin.facinematograph.di.global.DaggerApplicationComponent
+import org.koin.android.ext.android.startKoin
+import ru.kavyrshin.facinematograph.di.global.modules.applicationModule
+import ru.kavyrshin.facinematograph.di.global.modules.dataModule
+import ru.kavyrshin.facinematograph.di.global.modules.databaseModule
+import ru.kavyrshin.facinematograph.di.global.modules.networkModule
 
 class FacinematographApplication : Application() {
-
-    public var applicationComponent : ApplicationComponent? = null
-        private set
-        public get() {
-            return field ?: throw NullPointerException("Application component null")
-        }
 
     override fun onCreate() {
         super.onCreate()
 
-        applicationComponent = DaggerApplicationComponent.builder().application(this).build()
+        startKoin(this, listOf(applicationModule, networkModule, databaseModule, dataModule))
     }
 }

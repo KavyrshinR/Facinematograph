@@ -8,9 +8,8 @@ import ru.kavyrshin.facinematograph.data.network.OmdbApi
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.domain.global.repositories.IFilmsRepository
 import java.util.concurrent.Callable
-import javax.inject.Inject
 
-class FilmsRepository public @Inject constructor(val api: OmdbApi, val database: FacinematographDatabase) : IFilmsRepository {
+class FilmsRepository public constructor(val api: OmdbApi, val database: FacinematographDatabase) : IFilmsRepository {
 
     override fun search(searchRequest: String, page: Int): Single<List<Film>> {
         return api.searchFilmsByTitle("", BuildConfig.API_KEY, "movie", searchRequest, page)

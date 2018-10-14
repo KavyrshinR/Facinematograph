@@ -7,10 +7,9 @@ import ru.kavyrshin.facinematograph.domain.global.models.Film
 import ru.kavyrshin.facinematograph.domain.interactors.SearchFilmsInteractor
 import ru.kavyrshin.facinematograph.presentation.Paginator
 import ru.kavyrshin.facinematograph.presentation.views.SearchFilmsView
-import javax.inject.Inject
 
 @InjectViewState
-class SearchFilmsPresenter public @Inject constructor(private val searchInteractor: SearchFilmsInteractor)
+class SearchFilmsPresenter public constructor(private val searchInteractor: SearchFilmsInteractor)
     : BasePresenter<SearchFilmsView>() {
 
     private val paginator = Paginator<Film>(

@@ -1,15 +1,15 @@
 package ru.kavyrshin.facinematograph.di.global.modules
 
-import android.content.Context
-import dagger.Module
-import dagger.Provides
-import ru.kavyrshin.facinematograph.FacinematographApplication
+import org.koin.dsl.module.module
+import ru.kavyrshin.facinematograph.domain.interactors.FavouriteFilmsInteractor
+import ru.kavyrshin.facinematograph.domain.interactors.SearchFilmsInteractor
+import ru.kavyrshin.facinematograph.presentation.presenters.FavouriteFilmsPresenter
+import ru.kavyrshin.facinematograph.presentation.presenters.SearchFilmsPresenter
 
-@Module
-class ApplicationModule {
+val applicationModule = module {
+    factory { FavouriteFilmsInteractor(get()) }
+    factory { SearchFilmsInteractor(get()) }
 
-    @Provides
-    fun context(application : FacinematographApplication) : Context {
-        return application
-    }
+    factory { FavouriteFilmsPresenter(get()) }
+    factory { SearchFilmsPresenter(get()) }
 }
