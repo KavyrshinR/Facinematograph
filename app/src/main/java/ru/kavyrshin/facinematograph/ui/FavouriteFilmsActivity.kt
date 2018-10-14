@@ -14,6 +14,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import org.koin.android.ext.android.get
 import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
+import ru.kavyrshin.facinematograph.features.film_detail.DetailActivity
 import ru.kavyrshin.facinematograph.presentation.presenters.FavouriteFilmsPresenter
 import ru.kavyrshin.facinematograph.presentation.views.FavouriteFilmsView
 import ru.kavyrshin.facinematograph.ui.adapters.FavouriteFilmsListAdapter
@@ -64,9 +65,10 @@ class FavouriteFilmsActivity : BaseActivity(), View.OnClickListener, FavouriteFi
 
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         favouriteFilmsList?.layoutManager = linearLayoutManager
-        favouriteAdapter = FavouriteFilmsListAdapter (alphabetComparator, {
-            presenter.deleteFilm(it)
-        })
+        favouriteAdapter = FavouriteFilmsListAdapter (alphabetComparator,
+                { presenter.deleteFilm(it) },
+                { presenter.filmClick(it) }
+        )
         favouriteFilmsList?.adapter = favouriteAdapter
 
         btnAddFavouriteFilm?.setOnClickListener(this)
@@ -94,6 +96,12 @@ class FavouriteFilmsActivity : BaseActivity(), View.OnClickListener, FavouriteFi
         filmsCache?.clear()
         filmsCache?.addAll(favouriteFilms)
         favouriteAdapter?.replaceAll(favouriteFilms)
+    }
+
+    override fun goToDetail(film: Film) {
+        val detailIntent = Intent(this, DetailActivity::class.java)
+        detailIntent.putExtra(DetailActivity.Companion.FILM_KEY_EXTRA, film.id)
+        startActivity(detailIntent)
     }
 
     override fun showError(message: String) {

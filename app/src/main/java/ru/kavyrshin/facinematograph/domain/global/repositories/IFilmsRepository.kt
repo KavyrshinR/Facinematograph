@@ -9,4 +9,5 @@ interface IFilmsRepository {
     fun saveFilmInFavourite(film: Film) : Completable
     fun deleteFilmFromFavourite(film: Film) : Completable
     fun getFavouriteFilms() : Single<List<Film>>
+    fun getFilmById(filmId: Int) : Single<Film>
 }

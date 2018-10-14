@@ -27,6 +27,10 @@ class FavouriteFilmsPresenter constructor(val favouriteFilmsInteractor: Favourit
         )
     }
 
+    fun filmClick(film: Film) {
+
+    }
+
     override fun attachView(view: FavouriteFilmsView?) {
         super.attachView(view)
         getFavouriteFilms()

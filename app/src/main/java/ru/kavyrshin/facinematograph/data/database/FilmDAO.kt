@@ -10,6 +10,9 @@ interface FilmDAO {
     @Query("SELECT * FROM film")
     fun queryAllFilms() : Single<List<Film>>
 
+    @Query("SELECT * FROM film WHERE id == :filmId")
+    fun queryFilmById(filmId: Int): Single<Film>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllFilms(films: List<Film>)
 

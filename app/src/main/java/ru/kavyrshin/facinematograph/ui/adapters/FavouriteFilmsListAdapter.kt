@@ -11,6 +11,7 @@ import ru.kavyrshin.facinematograph.R
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 
 class FavouriteFilmsListAdapter(private val comparator: Comparator<Film>,
+                                private val deleteClick: (Film) -> Unit,
                                 private val itemClick: (Film) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,7 +52,7 @@ class FavouriteFilmsListAdapter(private val comparator: Comparator<Film>,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return FavouriteFilmViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.film_favourite_list_item, parent, false), itemClick)
+                .inflate(R.layout.film_favourite_list_item, parent, false), deleteClick, itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -91,14 +92,18 @@ class FavouriteFilmsListAdapter(private val comparator: Comparator<Film>,
     }
 
 
-    class FavouriteFilmViewHolder(itemView: View, private val itemClick: (Film) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    class FavouriteFilmViewHolder(itemView: View,
+                                  private val deleteClick: (Film) -> Unit,
+                                  private val itemClick: (Film) -> Unit)
+        : RecyclerView.ViewHolder(itemView) {
 
         fun bindFilm(film: Film) {
+            itemView.setOnClickListener { itemClick(film) }
             Picasso.get().load(film.posterSrc).error(R.drawable.broken_image).into(itemView.imageView)
             itemView.tvTitle.text = film.title
             itemView.tvYear.text = film.year.toString()
             itemView.btnFavourite.setText(R.string.delete_favourite)
-            itemView.btnFavourite.setOnClickListener { itemClick(film) }
+            itemView.btnFavourite.setOnClickListener { deleteClick(film) }
         }
     }
 }
