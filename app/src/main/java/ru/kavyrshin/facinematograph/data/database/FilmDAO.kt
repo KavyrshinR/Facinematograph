@@ -1,6 +1,6 @@
 package ru.kavyrshin.facinematograph.data.database
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import io.reactivex.Single
 import ru.kavyrshin.facinematograph.domain.global.models.Film
 
