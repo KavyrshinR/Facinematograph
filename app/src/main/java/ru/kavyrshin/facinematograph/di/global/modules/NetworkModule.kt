@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-    private val baseUrl : String = "http://www.omdbapi.com/"
+    private val baseUrl : String = "https://www.omdbapi.com/"
 
     @Provides
     @Singleton
